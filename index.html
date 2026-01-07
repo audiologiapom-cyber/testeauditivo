@@ -16,42 +16,41 @@ body{
 .container{
   min-height:100vh;
   display:flex;
-  justify-content:center;
-  align-items:center;
+  justify-content:flex-start;
 }
 
 .content{
+  width:100%;
   text-align:center;
-  padding:30px;
-  transform: translateY(40px); /* desce ligeiramente */
+  padding:40px 30px 30px;
 }
 
 .screen{display:none}
 .screen.active{display:block}
 
 h1{
-  font-size:32px;
-  margin-bottom:20px;
+  font-size:36px;
+  margin-bottom:25px;
 }
 
 p{
-  font-size:22px;
-  margin-bottom:30px;
+  font-size:26px;
+  margin-bottom:35px;
 }
 
 button{
   border:none;
-  border-radius:14px;
+  border-radius:16px;
   color:#fff;
-  margin:12px;
+  margin:14px;
   cursor:pointer;
 }
 
 .play{
   background:#000;
-  font-size:24px;
-  padding:22px 46px;
-  min-width:260px;
+  font-size:26px;
+  padding:26px 50px;
+  min-width:280px;
 }
 
 .play.playing{
@@ -60,14 +59,14 @@ button{
 
 .yes{
   background:#34c759;
-  font-size:20px;
-  padding:16px 32px;
+  font-size:22px;
+  padding:18px 36px;
 }
 
 .no{
   background:#ff3b30;
-  font-size:20px;
-  padding:16px 32px;
+  font-size:22px;
+  padding:18px 36px;
 }
 </style>
 </head>
@@ -80,7 +79,7 @@ button{
 <div class="screen active" id="s1">
   <h1>Teste Auditivo</h1>
   <p>Vamos fazer um simples teste auditivo.</p>
-  <button class="play" onclick="next(2)">Começar</button>
+  <button class="play" onclick="startTest()">Começar</button>
 </div>
 
 <!-- Ecrã 2 -->
@@ -88,7 +87,7 @@ button{
   <p>Ouça com atenção e carregue no botão para ouvir.</p>
   <button class="play" onclick="playSound(this,'a1')">Ouvir som #1</button><br>
   <button class="yes" onclick="next(3)">Ouvi</button>
-  <button class="no" onclick="next(3)">Não ouvi</button>
+  <button class="no" onclick="failSound(); next(3)">Não ouvi</button>
 </div>
 
 <!-- Ecrã 3 -->
@@ -96,7 +95,7 @@ button{
   <p>Ouça com atenção e carregue no botão para ouvir.</p>
   <button class="play" onclick="playSound(this,'a4')">Ouvir som #2</button><br>
   <button class="yes" onclick="next(4)">Ouvi</button>
-  <button class="no" onclick="next(4)">Não ouvi</button>
+  <button class="no" onclick="failSound(); next(4)">Não ouvi</button>
 </div>
 
 <!-- Ecrã 4 -->
@@ -104,10 +103,10 @@ button{
   <p>Ouça com atenção e carregue no botão para ouvir.</p>
   <button class="play" onclick="playSound(this,'a8')">Ouvir som #3</button><br>
   <button class="yes" onclick="finish()">Ouvi</button>
-  <button class="no" onclick="finish()">Não ouvi</button>
+  <button class="no" onclick="failSound(); finish()">Não ouvi</button>
 </div>
 
-<!-- Ecrã final -->
+<!-- Resultado -->
 <div class="screen" id="s5">
   <h1>Resultado</h1>
   <p>
@@ -124,13 +123,27 @@ button{
 </div>
 
 <script>
+let failed = false;
+
+function startTest(){
+  incrementStat("totalTests");
+  next(2);
+}
+
 function next(n){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('s'+n).classList.add('active');
 }
 
 function finish(){
+  if(failed){
+    incrementStat("failedTests");
+  }
   next(5);
+}
+
+function failSound(){
+  failed = true;
 }
 
 function playSound(button, audioId){
@@ -148,6 +161,13 @@ function playSound(button, audioId){
     button.classList.remove('playing');
     button.innerHTML = originalText;
   };
+}
+
+/* Estatísticas locais */
+function incrementStat(key){
+  let value = localStorage.getItem(key);
+  value = value ? parseInt(value) : 0;
+  localStorage.setItem(key, value + 1);
 }
 </script>
 
