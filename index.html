@@ -11,6 +11,8 @@ body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,sans-serif;
   background:#f2f2f7;
+  position:relative;
+  min-height:100vh;
 }
 
 .container{
@@ -70,10 +72,18 @@ button{
 }
 
 .statBtn{
+  position:fixed;
+  bottom:10px;
+  right:10px;
+  width:50px;
+  height:50px;
+  border-radius:50%;
   background:#007aff;
   font-size:22px;
-  padding:18px 36px;
-  margin-top:20px;
+  padding:0;
+  line-height:50px;
+  text-align:center;
+  z-index:1000;
 }
 
 .resetBtn{
@@ -81,6 +91,10 @@ button{
   font-size:22px;
   padding:18px 36px;
   margin-top:10px;
+}
+.statValues{
+  font-size:22px;
+  margin-top:15px;
 }
 </style>
 </head>
@@ -121,23 +135,16 @@ button{
 </div>
 
 <!-- Ecrã final -->
-<div class="screen" id="s5">
+<div class="screen active" id="s5">
   <h1>Resultado</h1>
   <p>
     Se não ouviu os 3 sons,<br>
     <strong>marque já uma consulta gratuita.</strong>
   </p>
-  <button class="statBtn" onclick="showStats()">Ver Estatísticas</button>
-</div>
-
-<!-- Estatísticas -->
-<div class="screen" id="stats">
-  <h1>Estatísticas</h1>
-  <p>Total de testes: <span id="totalDisplay">0</span></p>
-  <p>Não passaram: <span id="failedDisplay">0</span></p>
-  <button class="statBtn" onclick="showStats()">Atualizar</button><br>
-  <button class="resetBtn" onclick="resetStats()">Resetar contadores</button><br>
-  <button class="statBtn" onclick="next(1)">Voltar ao início</button>
+  <div class="statValues">
+    Total de testes: <span id="totalDisplay">0</span><br>
+    Não passaram: <span id="failedDisplay">0</span>
+  </div>
 </div>
 
 <audio id="a1" src="1kHz.mp3"></audio>
@@ -146,6 +153,9 @@ button{
 
 </div>
 </div>
+
+<!-- Botão estatísticas -->
+<button class="statBtn" onclick="updateStats()">#</button>
 
 <script>
 let failed = false;
@@ -197,16 +207,10 @@ function incrementStat(key){
   localStorage.setItem(key, value + 1);
 }
 
-function showStats(){
+/* Atualizar contadores na página */
+function updateStats(){
   document.getElementById('totalDisplay').innerText = localStorage.getItem('totalTests') || 0;
   document.getElementById('failedDisplay').innerText = localStorage.getItem('failedTests') || 0;
-  next('stats');
-}
-
-function resetStats(){
-  localStorage.setItem('totalTests',0);
-  localStorage.setItem('failedTests',0);
-  showStats();
 }
 </script>
 
