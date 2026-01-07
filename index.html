@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <title>Teste Auditivo</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="apple-touch-icon" href="icon.png">
-
 <style>
 /* Corpo */
 body{
@@ -14,6 +12,17 @@ body{
   background: linear-gradient(to bottom, #e0f7fa, #ffffff);
   min-height:100vh;
   color:#333;
+  position:relative;
+}
+
+/* Logo no canto superior direito */
+.logo{
+  position:fixed;
+  top:10px;
+  right:10px;
+  width:60px;
+  height:auto;
+  z-index:1000;
 }
 
 /* Container principal */
@@ -126,7 +135,8 @@ button{
 }
 
 #s5 strong{
-  display:inline-block;
+  display:block;
+  margin-top:15px;
   background:#ffeb3b;
   padding:10px 20px;
   border-radius:12px;
@@ -155,8 +165,11 @@ button{
 }
 </style>
 </head>
-
 <body>
+
+<!-- Logo -->
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRItJoDE-e2ctIT1uJmJoyLrqWjbpnxSrOEtNx4vMe6&s=10" class="logo" alt="Logo">
+
 <div class="container">
 <div class="content">
 
@@ -196,7 +209,7 @@ button{
   <h1>Resultado</h1>
   <p>
     Se não ouviu os 3 sons,<br>
-    <strong>marque já uma consulta gratuita.</strong>
+    <strong>marque já uma consulta gratuita, na Parente Óptica Médica mais próxima de si.</strong>
   </p>
 </div>
 
@@ -220,15 +233,12 @@ function finish(){
 
 function playSound(button, audioId){
   const audio = document.getElementById(audioId);
-
   button.classList.add('playing');
   const originalText = button.innerHTML;
   button.innerHTML = "🔊 A reproduzir...";
   button.disabled = true;
-
   audio.currentTime = 0;
   audio.play();
-
   audio.onended = () => {
     button.classList.remove('playing');
     button.innerHTML = originalText;
@@ -236,6 +246,5 @@ function playSound(button, audioId){
   };
 }
 </script>
-
 </body>
 </html>
