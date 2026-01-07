@@ -68,6 +68,20 @@ button{
   font-size:22px;
   padding:18px 36px;
 }
+
+.statBtn{
+  background:#007aff;
+  font-size:22px;
+  padding:18px 36px;
+  margin-top:20px;
+}
+
+.resetBtn{
+  background:#ff9500;
+  font-size:22px;
+  padding:18px 36px;
+  margin-top:10px;
+}
 </style>
 </head>
 
@@ -106,13 +120,24 @@ button{
   <button class="no" onclick="failSound(); finish()">Não ouvi</button>
 </div>
 
-<!-- Resultado -->
+<!-- Ecrã final -->
 <div class="screen" id="s5">
   <h1>Resultado</h1>
   <p>
     Se não ouviu os 3 sons,<br>
     <strong>marque já uma consulta gratuita.</strong>
   </p>
+  <button class="statBtn" onclick="showStats()">Ver Estatísticas</button>
+</div>
+
+<!-- Estatísticas -->
+<div class="screen" id="stats">
+  <h1>Estatísticas</h1>
+  <p>Total de testes: <span id="totalDisplay">0</span></p>
+  <p>Não passaram: <span id="failedDisplay">0</span></p>
+  <button class="statBtn" onclick="showStats()">Atualizar</button><br>
+  <button class="resetBtn" onclick="resetStats()">Resetar contadores</button><br>
+  <button class="statBtn" onclick="next(1)">Voltar ao início</button>
 </div>
 
 <audio id="a1" src="1kHz.mp3"></audio>
@@ -127,6 +152,7 @@ let failed = false;
 
 function startTest(){
   incrementStat("totalTests");
+  failed = false;
   next(2);
 }
 
@@ -160,6 +186,7 @@ function playSound(button, audioId){
   audio.onended = () => {
     button.classList.remove('playing');
     button.innerHTML = originalText;
+    button.disabled = false;
   };
 }
 
@@ -168,6 +195,18 @@ function incrementStat(key){
   let value = localStorage.getItem(key);
   value = value ? parseInt(value) : 0;
   localStorage.setItem(key, value + 1);
+}
+
+function showStats(){
+  document.getElementById('totalDisplay').innerText = localStorage.getItem('totalTests') || 0;
+  document.getElementById('failedDisplay').innerText = localStorage.getItem('failedTests') || 0;
+  next('stats');
+}
+
+function resetStats(){
+  localStorage.setItem('totalTests',0);
+  localStorage.setItem('failedTests',0);
+  showStats();
 }
 </script>
 
