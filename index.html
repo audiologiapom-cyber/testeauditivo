@@ -7,14 +7,16 @@
 <link rel="apple-touch-icon" href="icon.png">
 
 <style>
+/* Corpo */
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-  background:#f2f2f7;
-  position:relative;
+  background: linear-gradient(to bottom, #e0f7fa, #ffffff);
   min-height:100vh;
+  color:#333;
 }
 
+/* Container principal */
 .container{
   min-height:100vh;
   display:flex;
@@ -24,77 +26,132 @@ body{
 .content{
   width:100%;
   text-align:center;
-  padding:40px 30px 30px;
+  padding:60px 30px 30px;
 }
 
+/* Telas */
 .screen{display:none}
 .screen.active{display:block}
 
+/* Cabeçalhos e parágrafos */
 h1{
-  font-size:36px;
+  font-size:42px;
   margin-bottom:25px;
+  color:#00796b;
 }
 
 p{
-  font-size:26px;
-  margin-bottom:35px;
+  font-size:28px;
+  margin-bottom:40px;
+  line-height:1.5;
 }
 
+/* Botões principais */
 button{
   border:none;
-  border-radius:16px;
+  border-radius:20px;
   color:#fff;
-  margin:14px;
+  margin:16px;
   cursor:pointer;
+  transition: all 0.2s ease;
+  position:relative;
 }
 
 .play{
-  background:#000;
-  font-size:26px;
-  padding:26px 50px;
-  min-width:280px;
+  background:#00796b;
+  font-size:28px;
+  padding:28px 60px;
+  min-width:300px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.play:hover{
+  background:#004d40;
+  transform: translateY(-2px);
 }
 
 .play.playing{
-  background:#444;
+  background:#004d40;
 }
 
+/* Botões Ouvi / Não ouvi */
 .yes{
   background:#34c759;
-  font-size:22px;
-  padding:18px 36px;
+  font-size:24px;
+  padding:20px 40px;
+  min-width:150px;
 }
 
 .no{
   background:#ff3b30;
-  font-size:22px;
-  padding:18px 36px;
+  font-size:24px;
+  padding:20px 40px;
+  min-width:150px;
 }
 
-.statBtn{
-  position:fixed;
-  bottom:10px;
-  right:10px;
-  width:50px;
-  height:50px;
+/* Animação inicial */
+@keyframes fadeIn{
+  0% {opacity:0; transform: translateY(30px);}
+  100% {opacity:1; transform: translateY(0);}
+}
+
+.screen.active h1, .screen.active p, .screen.active button{
+  animation: fadeIn 1s ease;
+}
+
+/* Efeito onda no botão de som */
+@keyframes wave {
+  0% {box-shadow: 0 0 0 rgba(255,255,255,0.5);}
+  50% {box-shadow: 0 0 20px rgba(255,255,255,0.8);}
+  100% {box-shadow: 0 0 0 rgba(255,255,255,0.5);}
+}
+
+.play.playing::after{
+  content: '';
+  position: absolute;
+  top:50%;
+  left:50%;
+  width:80%;
+  height:80%;
   border-radius:50%;
-  background:#007aff;
-  font-size:22px;
-  padding:0;
-  line-height:50px;
-  text-align:center;
-  z-index:1000;
+  transform: translate(-50%,-50%);
+  animation: wave 1s infinite;
 }
 
-.resetBtn{
-  background:#ff9500;
-  font-size:22px;
-  padding:18px 36px;
-  margin-top:10px;
+/* Mensagem final CTA */
+#s5 p{
+  font-size:30px;
+  font-weight:bold;
+  color:#d32f2f;
 }
-.statValues{
-  font-size:22px;
-  margin-top:15px;
+
+#s5 strong{
+  display:inline-block;
+  background:#ffeb3b;
+  padding:10px 20px;
+  border-radius:12px;
+  color:#000;
+  font-size:32px;
+}
+
+/* Responsividade iPad */
+@media (max-width:1024px){
+  h1{font-size:38px;}
+  p{font-size:26px;}
+  .play{font-size:26px; padding:24px 50px; min-width:260px;}
+  .yes, .no{font-size:22px; padding:18px 36px;}
+  #s5 p{font-size:28px;}
+  #s5 strong{font-size:28px; padding:8px 16px;}
+}
+
+@media (orientation:landscape) and (max-width:1024px){
+  .content{padding:40px 20px 20px;}
+  h1{font-size:36px;}
+  p{font-size:24px;}
+  .play{font-size:24px; padding:22px 48px;}
+  .yes,.no{font-size:20px; padding:16px 32px;}
+  #s5 p{font-size:26px;}
+  #s5 strong{font-size:26px; padding:6px 12px;}
 }
 </style>
 </head>
@@ -103,50 +160,47 @@ button{
 <div class="container">
 <div class="content">
 
-<!-- Ecrã 1 -->
+<!-- Página inicial -->
 <div class="screen active" id="s1">
-  <h1>Teste Auditivo</h1>
-  <p>Vamos fazer um simples teste auditivo.</p>
-  <button class="play" onclick="startTest()">Começar</button>
+  <h1>Bem-vindo ao Teste Auditivo</h1>
+  <p>Vamos fazer um simples teste auditivo. É rápido e seguro.</p>
+  <button class="play" onclick="next(2)">Começar</button>
 </div>
 
-<!-- Ecrã 2 -->
+<!-- Som 1 -->
 <div class="screen" id="s2">
   <p>Ouça com atenção e carregue no botão para ouvir.</p>
   <button class="play" onclick="playSound(this,'a1')">Ouvir som #1</button><br>
   <button class="yes" onclick="next(3)">Ouvi</button>
-  <button class="no" onclick="failSound(); next(3)">Não ouvi</button>
+  <button class="no" onclick="next(3)">Não ouvi</button>
 </div>
 
-<!-- Ecrã 3 -->
+<!-- Som 2 -->
 <div class="screen" id="s3">
   <p>Ouça com atenção e carregue no botão para ouvir.</p>
   <button class="play" onclick="playSound(this,'a4')">Ouvir som #2</button><br>
   <button class="yes" onclick="next(4)">Ouvi</button>
-  <button class="no" onclick="failSound(); next(4)">Não ouvi</button>
+  <button class="no" onclick="next(4)">Não ouvi</button>
 </div>
 
-<!-- Ecrã 4 -->
+<!-- Som 3 -->
 <div class="screen" id="s4">
   <p>Ouça com atenção e carregue no botão para ouvir.</p>
   <button class="play" onclick="playSound(this,'a8')">Ouvir som #3</button><br>
   <button class="yes" onclick="finish()">Ouvi</button>
-  <button class="no" onclick="failSound(); finish()">Não ouvi</button>
+  <button class="no" onclick="finish()">Não ouvi</button>
 </div>
 
-<!-- Ecrã final -->
-<div class="screen active" id="s5">
+<!-- Resultado final -->
+<div class="screen" id="s5">
   <h1>Resultado</h1>
   <p>
     Se não ouviu os 3 sons,<br>
     <strong>marque já uma consulta gratuita.</strong>
   </p>
-  <div class="statValues">
-    Total de testes: <span id="totalDisplay">0</span><br>
-    Não passaram: <span id="failedDisplay">0</span>
-  </div>
 </div>
 
+<!-- Áudios -->
 <audio id="a1" src="1kHz.mp3"></audio>
 <audio id="a4" src="4kHz.mp3"></audio>
 <audio id="a8" src="8kHz.mp3"></audio>
@@ -154,32 +208,14 @@ button{
 </div>
 </div>
 
-<!-- Botão estatísticas -->
-<button class="statBtn" onclick="updateStats()">#</button>
-
 <script>
-let failed = false;
-
-function startTest(){
-  incrementStat("totalTests");
-  failed = false;
-  next(2);
-}
-
 function next(n){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('s'+n).classList.add('active');
 }
 
 function finish(){
-  if(failed){
-    incrementStat("failedTests");
-  }
   next(5);
-}
-
-function failSound(){
-  failed = true;
 }
 
 function playSound(button, audioId){
@@ -198,19 +234,6 @@ function playSound(button, audioId){
     button.innerHTML = originalText;
     button.disabled = false;
   };
-}
-
-/* Estatísticas locais */
-function incrementStat(key){
-  let value = localStorage.getItem(key);
-  value = value ? parseInt(value) : 0;
-  localStorage.setItem(key, value + 1);
-}
-
-/* Atualizar contadores na página */
-function updateStats(){
-  document.getElementById('totalDisplay').innerText = localStorage.getItem('totalTests') || 0;
-  document.getElementById('failedDisplay').innerText = localStorage.getItem('failedTests') || 0;
 }
 </script>
 
