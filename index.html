@@ -3,22 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <title>Teste Auditivo</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
 <style>
 /* ===============================
    CORES INSTITUCIONAIS
 ================================ */
 :root{
+  --azul-topo: #EEF6FD;
   --azul-logo: #0054A6;
-  --azul-escuro: #003B73;
-  --azul-claro: #E8F1FA;
+  --azul-escuro: #002B55;
 
   --sucesso: #1E88E5;
   --neutro: #90A4AE;
 
-  --texto: #333;
-  --fundo: #ffffff;
+  --texto: #1f2933;
+}
+
+/* ===============================
+   MODO QUIOSQUE
+================================ */
+html, body{
+  height:100%;
+  overflow:hidden;
+  touch-action: manipulation;
+  user-select:none;
 }
 
 /* ===============================
@@ -27,8 +36,7 @@
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-  background: linear-gradient(to bottom, var(--azul-claro), var(--fundo));
-  min-height:100vh;
+  background: linear-gradient(to bottom, var(--azul-topo), var(--azul-escuro));
   color:var(--texto);
 }
 
@@ -37,8 +45,8 @@ body{
 ================================ */
 .logo{
   position:fixed;
-  top:10px;
-  left:10px;
+  top:12px;
+  left:12px;
   width:100px;
   z-index:1000;
 }
@@ -47,14 +55,17 @@ body{
    LAYOUT
 ================================ */
 .container{
-  min-height:100vh;
+  height:100%;
   display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .content{
   width:100%;
+  max-width:900px;
   text-align:center;
-  padding:60px 30px 30px;
+  padding:80px 30px 30px;
 }
 
 /* ===============================
@@ -83,11 +94,11 @@ p{
 ================================ */
 button{
   border:none;
-  border-radius:20px;
+  border-radius:22px;
   color:#fff;
   margin:16px;
   cursor:pointer;
-  transition:0.2s;
+  transition:0.2s ease;
   position:relative;
 }
 
@@ -97,12 +108,12 @@ button{
   font-size:28px;
   padding:28px 60px;
   min-width:300px;
-  box-shadow:0 6px 16px rgba(0,0,0,0.2);
+  box-shadow:0 10px 25px rgba(0,0,0,0.25);
 }
 
 .play:hover,
 .play.playing{
-  background:var(--azul-escuro);
+  background:#003F80;
   transform:translateY(-2px);
 }
 
@@ -110,16 +121,16 @@ button{
 .yes{
   background:var(--sucesso);
   font-size:24px;
-  padding:20px 40px;
-  min-width:150px;
+  padding:20px 44px;
+  min-width:160px;
 }
 
 /* Não ouvi */
 .no{
   background:var(--neutro);
   font-size:24px;
-  padding:20px 40px;
-  min-width:150px;
+  padding:20px 44px;
+  min-width:160px;
 }
 
 /* ===============================
@@ -130,16 +141,14 @@ button{
   to{opacity:1; transform:none;}
 }
 
-.screen.active h1,
-.screen.active p,
-.screen.active button{
-  animation:fadeIn 0.8s ease;
+.screen.active *{
+  animation:fadeIn 0.6s ease;
 }
 
 /* Onda sonora */
 @keyframes wave{
   0%{box-shadow:0 0 0 rgba(255,255,255,0.4);}
-  50%{box-shadow:0 0 30px rgba(0,84,166,0.6);}
+  50%{box-shadow:0 0 35px rgba(0,84,166,0.7);}
   100%{box-shadow:0 0 0 rgba(255,255,255,0.4);}
 }
 
@@ -158,35 +167,27 @@ button{
 /* ===============================
    RESULTADO FINAL
 ================================ */
-#s5 p{
+#resultado-box{
+  background:rgba(255,255,255,0.95);
+  padding:40px;
+  border-radius:26px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.25);
+}
+
+#resultado-texto{
   font-size:30px;
   font-weight:bold;
-  color:var(--azul-escuro);
+  color:#003F80;
 }
 
-#s5 strong{
-  display:block;
-  margin-top:15px;
+#cta{
+  display:none;
+  margin-top:25px;
   background:var(--azul-logo);
   color:#fff;
-  padding:12px 24px;
-  border-radius:14px;
-  font-size:32px;
-}
-
-/* ===============================
-   MODO ESCURO
-================================ */
-@media (prefers-color-scheme: dark){
-  :root{
-    --texto:#E0E0E0;
-    --fundo:#121212;
-    --azul-claro:#0A1E33;
-  }
-
-  body{
-    background:linear-gradient(to bottom, #0A1E33, #121212);
-  }
+  padding:16px 28px;
+  border-radius:18px;
+  font-size:28px;
 }
 
 /* ===============================
@@ -195,8 +196,7 @@ button{
 @media (max-width:1024px){
   h1{font-size:38px;}
   p{font-size:26px;}
-  .play{font-size:26px; padding:24px 50px;}
-  .yes,.no{font-size:22px;}
+  .play{font-size:26px;}
 }
 </style>
 </head>
@@ -208,39 +208,44 @@ button{
 <div class="container">
 <div class="content">
 
+<!-- INÍCIO -->
 <div class="screen active" id="s1">
   <h1>Bem-vindo ao Teste Auditivo</h1>
   <p>Vamos fazer um simples teste auditivo. É rápido e seguro.</p>
   <button class="play" onclick="next(2)">Começar</button>
 </div>
 
+<!-- SOM 1 -->
 <div class="screen" id="s2">
   <p>Ouça com atenção e carregue no botão para ouvir.</p>
   <button class="play" onclick="playSound(this,'a1')">Ouvir som #1</button><br>
-  <button class="yes" onclick="next(3)">Ouvi</button>
-  <button class="no" onclick="next(3)">Não ouvi</button>
+  <button class="yes" onclick="resposta(true,3)">Ouvi</button>
+  <button class="no" onclick="resposta(false,3)">Não ouvi</button>
 </div>
 
+<!-- SOM 2 -->
 <div class="screen" id="s3">
   <p>Ouça com atenção e carregue no botão para ouvir.</p>
   <button class="play" onclick="playSound(this,'a4')">Ouvir som #2</button><br>
-  <button class="yes" onclick="next(4)">Ouvi</button>
-  <button class="no" onclick="next(4)">Não ouvi</button>
+  <button class="yes" onclick="resposta(true,4)">Ouvi</button>
+  <button class="no" onclick="resposta(false,4)">Não ouvi</button>
 </div>
 
+<!-- SOM 3 -->
 <div class="screen" id="s4">
   <p>Ouça com atenção e carregue no botão para ouvir.</p>
   <button class="play" onclick="playSound(this,'a8')">Ouvir som #3</button><br>
-  <button class="yes" onclick="finish()">Ouvi</button>
-  <button class="no" onclick="finish()">Não ouvi</button>
+  <button class="yes" onclick="resposta(true,5)">Ouvi</button>
+  <button class="no" onclick="resposta(false,5)">Não ouvi</button>
 </div>
 
+<!-- RESULTADO -->
 <div class="screen" id="s5">
-  <h1>Resultado</h1>
-  <p>
-    Se não ouviu os 3 sons,<br>
-    <strong>Marque já uma consulta gratuita na Parente Óptica Médica.</strong>
-  </p>
+  <div id="resultado-box">
+    <h1>Resultado</h1>
+    <p id="resultado-texto"></p>
+    <div id="cta">Marque já uma consulta gratuita na Parente Óptica Médica</div>
+  </div>
 </div>
 
 <audio id="a1" src="1kHz.mp3"></audio>
@@ -251,13 +256,36 @@ button{
 </div>
 
 <script>
+let ouvidos = 0;
+
+/* Navegação */
 function next(n){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('s'+n).classList.add('active');
 }
 
-function finish(){ next(5); }
+/* Guardar respostas */
+function resposta(ouvi, nextScreen){
+  if(ouvi) ouvidos++;
+  if(nextScreen === 5) mostrarResultado();
+  next(nextScreen);
+}
 
+/* Resultado dinâmico */
+function mostrarResultado(){
+  const texto = document.getElementById('resultado-texto');
+  const cta = document.getElementById('cta');
+
+  if(ouvidos === 3){
+    texto.innerHTML = "Excelente! Ouviu todos os sons.<br>A sua audição aparenta estar dentro da normalidade.";
+    cta.style.display = "none";
+  } else {
+    texto.innerHTML = `Ouviu ${ouvidos} de 3 sons.<br>Recomendamos uma avaliação auditiva gratuita.`;
+    cta.style.display = "block";
+  }
+}
+
+/* Som */
 function playSound(btn,id){
   const audio=document.getElementById(id);
   btn.classList.add('playing');
@@ -272,6 +300,13 @@ function playSound(btn,id){
     btn.disabled=false;
   }
 }
+
+/* Fullscreen automático (opcional, funciona em quiosques) */
+document.addEventListener('click',()=>{
+  if(!document.fullscreenElement){
+    document.documentElement.requestFullscreen().catch(()=>{});
+  }
+},{once:true});
 </script>
 
 </body>
