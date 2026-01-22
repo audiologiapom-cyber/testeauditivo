@@ -15,7 +15,9 @@
   --azul-escuro: #002B55;
 
   --sucesso: #1E88E5;
-  --neutro: #90A4AE;
+
+  --rosa-parente: #E91E63;
+  --rosa-parente-escuro: #C2185B;
 
   --texto: #1f2933;
 }
@@ -56,15 +58,14 @@ body{
 ================================ */
 .container{
   height:100%;
-  display:flex;
-  justify-content:center;
 }
 
 .content{
   width:100%;
   max-width:900px;
+  margin:0 auto;
   text-align:center;
-  padding:120px 30px 30px; /* mais acima */
+  padding:15vh 30px 30px; /* 15% abaixo */
 }
 
 /* ===============================
@@ -91,7 +92,7 @@ p{
 /* ===============================
    BOTÕES
 ================================ */
-button{
+button, a.cta-link{
   border:none;
   border-radius:22px;
   color:#fff;
@@ -99,6 +100,8 @@ button{
   cursor:pointer;
   transition:0.2s ease;
   position:relative;
+  display:inline-block;
+  text-decoration:none;
 }
 
 /* Botão som */
@@ -126,10 +129,14 @@ button{
 
 /* Não ouvi */
 .no{
-  background:var(--neutro);
+  background:var(--rosa-parente);
   font-size:24px;
   padding:20px 44px;
   min-width:160px;
+}
+
+.no:hover{
+  background:var(--rosa-parente-escuro);
 }
 
 /* ===============================
@@ -243,7 +250,16 @@ button{
   <div id="resultado-box">
     <h1>Resultado</h1>
     <p id="resultado-texto"></p>
-    <div id="cta">Marque já uma consulta gratuita na Parente Óptica Médica</div>
+
+    <a
+      id="cta"
+      class="cta-link"
+      href="https://www.opticaparente.pt/escolha-a-loja-e-marque-a-sua-consulta"
+      target="_blank"
+      rel="noopener"
+    >
+      Marque já uma consulta gratuita
+    </a>
   </div>
 </div>
 
@@ -281,7 +297,7 @@ function mostrarResultado(){
     cta.style.display = "none";
   } else {
     texto.innerHTML = `Ouviu ${ouvidos} de 3 sons.<br>Recomendamos uma avaliação auditiva gratuita.`;
-    cta.style.display = "block";
+    cta.style.display = "inline-block";
   }
 
   resetTimer = setTimeout(reiniciar, 30000);
