@@ -57,7 +57,6 @@ body{
 .container{
   height:100%;
   display:flex;
-  align-items:center;
   justify-content:center;
 }
 
@@ -65,7 +64,7 @@ body{
   width:100%;
   max-width:900px;
   text-align:center;
-  padding:80px 30px 30px;
+  padding:120px 30px 30px; /* mais acima */
 }
 
 /* ===============================
@@ -257,6 +256,7 @@ button{
 
 <script>
 let ouvidos = 0;
+let resetTimer = null;
 
 /* Navegação */
 function next(n){
@@ -271,7 +271,7 @@ function resposta(ouvi, nextScreen){
   next(nextScreen);
 }
 
-/* Resultado dinâmico */
+/* Resultado dinâmico + reinício automático */
 function mostrarResultado(){
   const texto = document.getElementById('resultado-texto');
   const cta = document.getElementById('cta');
@@ -283,6 +283,15 @@ function mostrarResultado(){
     texto.innerHTML = `Ouviu ${ouvidos} de 3 sons.<br>Recomendamos uma avaliação auditiva gratuita.`;
     cta.style.display = "block";
   }
+
+  resetTimer = setTimeout(reiniciar, 30000);
+}
+
+/* Reinício */
+function reiniciar(){
+  ouvidos = 0;
+  clearTimeout(resetTimer);
+  next(1);
 }
 
 /* Som */
@@ -301,7 +310,7 @@ function playSound(btn,id){
   }
 }
 
-/* Fullscreen automático (opcional, funciona em quiosques) */
+/* Fullscreen automático */
 document.addEventListener('click',()=>{
   if(!document.fullscreenElement){
     document.documentElement.requestFullscreen().catch(()=>{});
