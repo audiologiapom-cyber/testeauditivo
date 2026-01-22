@@ -4,32 +4,51 @@
 <meta charset="UTF-8">
 <title>Teste Auditivo</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-/* Corpo */
+/* ===============================
+   CORES INSTITUCIONAIS
+================================ */
+:root{
+  --azul-logo: #0054A6;
+  --azul-escuro: #003B73;
+  --azul-claro: #E8F1FA;
+
+  --sucesso: #1E88E5;
+  --neutro: #90A4AE;
+
+  --texto: #333;
+  --fundo: #ffffff;
+}
+
+/* ===============================
+   CORPO
+================================ */
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-  background: linear-gradient(to bottom, #e0f7fa, #ffffff);
+  background: linear-gradient(to bottom, var(--azul-claro), var(--fundo));
   min-height:100vh;
-  color:#333;
-  position:relative;
+  color:var(--texto);
 }
 
-/* Logo no canto superior esquerdo */
+/* ===============================
+   LOGO
+================================ */
 .logo{
   position:fixed;
   top:10px;
   left:10px;
   width:100px;
-  height:auto;
   z-index:1000;
 }
 
-/* Container principal */
+/* ===============================
+   LAYOUT
+================================ */
 .container{
   min-height:100vh;
   display:flex;
-  justify-content:flex-start;
 }
 
 .content{
@@ -38,15 +57,19 @@ body{
   padding:60px 30px 30px;
 }
 
-/* Telas */
+/* ===============================
+   TELAS
+================================ */
 .screen{display:none}
 .screen.active{display:block}
 
-/* Cabeçalhos e parágrafos */
+/* ===============================
+   TEXTO
+================================ */
 h1{
   font-size:42px;
   margin-bottom:25px;
-  color:#00796b;
+  color:var(--azul-logo);
 }
 
 p{
@@ -55,132 +78,142 @@ p{
   line-height:1.5;
 }
 
-/* Botões principais */
+/* ===============================
+   BOTÕES
+================================ */
 button{
   border:none;
   border-radius:20px;
   color:#fff;
   margin:16px;
   cursor:pointer;
-  transition: all 0.2s ease;
+  transition:0.2s;
   position:relative;
 }
 
+/* Botão som */
 .play{
-  background:#00796b;
+  background:var(--azul-logo);
   font-size:28px;
   padding:28px 60px;
   min-width:300px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  box-shadow:0 6px 16px rgba(0,0,0,0.2);
 }
 
-.play:hover{
-  background:#004d40;
-  transform: translateY(-2px);
-}
-
+.play:hover,
 .play.playing{
-  background:#004d40;
+  background:var(--azul-escuro);
+  transform:translateY(-2px);
 }
 
-/* Botões Ouvi / Não ouvi */
+/* Ouvi */
 .yes{
-  background:#34c759;
+  background:var(--sucesso);
   font-size:24px;
   padding:20px 40px;
   min-width:150px;
 }
 
+/* Não ouvi */
 .no{
-  background:#ff3b30;
+  background:var(--neutro);
   font-size:24px;
   padding:20px 40px;
   min-width:150px;
 }
 
-/* Animação inicial */
+/* ===============================
+   ANIMAÇÕES
+================================ */
 @keyframes fadeIn{
-  0% {opacity:0; transform: translateY(30px);}
-  100% {opacity:1; transform: translateY(0);}
+  from{opacity:0; transform:translateY(30px);}
+  to{opacity:1; transform:none;}
 }
 
-.screen.active h1, .screen.active p, .screen.active button{
-  animation: fadeIn 1s ease;
+.screen.active h1,
+.screen.active p,
+.screen.active button{
+  animation:fadeIn 0.8s ease;
 }
 
-/* Efeito onda no botão de som */
-@keyframes wave {
-  0% {box-shadow: 0 0 0 rgba(255,255,255,0.5);}
-  50% {box-shadow: 0 0 20px rgba(255,255,255,0.8);}
-  100% {box-shadow: 0 0 0 rgba(255,255,255,0.5);}
+/* Onda sonora */
+@keyframes wave{
+  0%{box-shadow:0 0 0 rgba(255,255,255,0.4);}
+  50%{box-shadow:0 0 30px rgba(0,84,166,0.6);}
+  100%{box-shadow:0 0 0 rgba(255,255,255,0.4);}
 }
 
 .play.playing::after{
-  content: '';
-  position: absolute;
+  content:'';
+  position:absolute;
   top:50%;
   left:50%;
   width:80%;
   height:80%;
   border-radius:50%;
-  transform: translate(-50%,-50%);
-  animation: wave 1s infinite;
+  transform:translate(-50%,-50%);
+  animation:wave 1s infinite;
 }
 
-/* Mensagem final CTA */
+/* ===============================
+   RESULTADO FINAL
+================================ */
 #s5 p{
   font-size:30px;
   font-weight:bold;
-  color:#d32f2f;
+  color:var(--azul-escuro);
 }
 
 #s5 strong{
   display:block;
   margin-top:15px;
-  background:#ffeb3b;
-  padding:10px 20px;
-  border-radius:12px;
-  color:#000;
+  background:var(--azul-logo);
+  color:#fff;
+  padding:12px 24px;
+  border-radius:14px;
   font-size:32px;
 }
 
-/* Responsividade iPad */
+/* ===============================
+   MODO ESCURO
+================================ */
+@media (prefers-color-scheme: dark){
+  :root{
+    --texto:#E0E0E0;
+    --fundo:#121212;
+    --azul-claro:#0A1E33;
+  }
+
+  body{
+    background:linear-gradient(to bottom, #0A1E33, #121212);
+  }
+}
+
+/* ===============================
+   RESPONSIVO
+================================ */
 @media (max-width:1024px){
   h1{font-size:38px;}
   p{font-size:26px;}
-  .play{font-size:26px; padding:24px 50px; min-width:260px;}
-  .yes, .no{font-size:22px; padding:18px 36px;}
-  #s5 p{font-size:28px;}
-  #s5 strong{font-size:28px; padding:8px 16px;}
-}
-
-@media (orientation:landscape) and (max-width:1024px){
-  .content{padding:40px 20px 20px;}
-  h1{font-size:36px;}
-  p{font-size:24px;}
-  .play{font-size:24px; padding:22px 48px;}
-  .yes,.no{font-size:20px; padding:16px 32px;}
-  #s5 p{font-size:26px;}
-  #s5 strong{font-size:26px; padding:6px 12px;}
+  .play{font-size:26px; padding:24px 50px;}
+  .yes,.no{font-size:22px;}
 }
 </style>
 </head>
+
 <body>
 
-<!-- Logo transparente no canto superior esquerdo -->
 <img src="https://i.ibb.co/qYr7Pqbn/parente-ca.png" class="logo" alt="Logo">
 
 <div class="container">
 <div class="content">
 
-<!-- Página inicial -->
 <div class="screen active" id="s1">
   <h1>Bem-vindo ao Teste Auditivo</h1>
   <p>Vamos fazer um simples teste auditivo. É rápido e seguro.</p>
   <button class="play" onclick="next(2)">Começar</button>
 </div>
 
-<!-- Som 1 -->
 <div class="screen" id="s2">
   <p>Ouça com atenção e carregue no botão para ouvir.</p>
   <button class="play" onclick="playSound(this,'a1')">Ouvir som #1</button><br>
@@ -188,7 +221,6 @@ button{
   <button class="no" onclick="next(3)">Não ouvi</button>
 </div>
 
-<!-- Som 2 -->
 <div class="screen" id="s3">
   <p>Ouça com atenção e carregue no botão para ouvir.</p>
   <button class="play" onclick="playSound(this,'a4')">Ouvir som #2</button><br>
@@ -196,7 +228,6 @@ button{
   <button class="no" onclick="next(4)">Não ouvi</button>
 </div>
 
-<!-- Som 3 -->
 <div class="screen" id="s4">
   <p>Ouça com atenção e carregue no botão para ouvir.</p>
   <button class="play" onclick="playSound(this,'a8')">Ouvir som #3</button><br>
@@ -204,16 +235,14 @@ button{
   <button class="no" onclick="finish()">Não ouvi</button>
 </div>
 
-<!-- Resultado final -->
 <div class="screen" id="s5">
   <h1>Resultado</h1>
   <p>
     Se não ouviu os 3 sons,<br>
-    <strong>marque já uma consulta gratuita, na Parente Óptica Médica mais próxima de si.</strong>
+    <strong>marque já uma consulta gratuita na Parente Óptica Médica.</strong>
   </p>
 </div>
 
-<!-- Áudios -->
 <audio id="a1" src="1kHz.mp3"></audio>
 <audio id="a4" src="4kHz.mp3"></audio>
 <audio id="a8" src="8kHz.mp3"></audio>
@@ -227,24 +256,23 @@ function next(n){
   document.getElementById('s'+n).classList.add('active');
 }
 
-function finish(){
-  next(5);
-}
+function finish(){ next(5); }
 
-function playSound(button, audioId){
-  const audio = document.getElementById(audioId);
-  button.classList.add('playing');
-  const originalText = button.innerHTML;
-  button.innerHTML = "🔊 A reproduzir...";
-  button.disabled = true;
-  audio.currentTime = 0;
+function playSound(btn,id){
+  const audio=document.getElementById(id);
+  btn.classList.add('playing');
+  const t=btn.innerHTML;
+  btn.innerHTML="🔊 A reproduzir...";
+  btn.disabled=true;
+  audio.currentTime=0;
   audio.play();
-  audio.onended = () => {
-    button.classList.remove('playing');
-    button.innerHTML = originalText;
-    button.disabled = false;
-  };
+  audio.onended=()=>{
+    btn.classList.remove('playing');
+    btn.innerHTML=t;
+    btn.disabled=false;
+  }
 }
 </script>
+
 </body>
 </html>
