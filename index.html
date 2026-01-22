@@ -6,43 +6,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
 <style>
-/* ===============================
-   CORES INSTITUCIONAIS
-================================ */
 :root{
-  --azul-topo: #EEF6FD;
-  --azul-logo: #0054A6;
-  --azul-escuro: #002B55;
-
-  --sucesso: #1E88E5;
-  --neutro: #90A4AE;
-
-  --texto: #1f2933;
+  --azul-topo:#EEF6FD;
+  --azul-logo:#0054A6;
+  --azul-escuro:#002B55;
+  --sucesso:#1E88E5;
+  --rosa-parente:#E91E63;
+  --rosa-parente-escuro:#C2185B;
+  --texto:#1f2933;
 }
 
-/* ===============================
-   MODO QUIOSQUE
-================================ */
-html, body{
+/* QUIOSQUE */
+html,body{
   height:100%;
   overflow:hidden;
-  touch-action: manipulation;
   user-select:none;
+  touch-action:manipulation;
 }
 
-/* ===============================
-   CORPO
-================================ */
+/* CORPO */
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-  background: linear-gradient(to bottom, var(--azul-topo), var(--azul-escuro));
+  background:linear-gradient(to bottom,var(--azul-topo),var(--azul-escuro));
   color:var(--texto);
 }
 
-/* ===============================
-   LOGO
-================================ */
+/* LOGO */
 .logo{
   position:fixed;
   top:12px;
@@ -51,31 +41,23 @@ body{
   z-index:1000;
 }
 
-/* ===============================
-   LAYOUT
-================================ */
+/* LAYOUT */
 .container{
   height:100%;
-  display:flex;
-  justify-content:center;
 }
 
 .content{
-  width:100%;
   max-width:900px;
+  margin:0 auto;
   text-align:center;
-  padding:120px 30px 30px; /* mais acima */
+  padding:120px 30px 30px; /* centragem anterior */
 }
 
-/* ===============================
-   TELAS
-================================ */
+/* TELAS */
 .screen{display:none}
 .screen.active{display:block}
 
-/* ===============================
-   TEXTO
-================================ */
+/* TEXTO */
 h1{
   font-size:42px;
   margin-bottom:25px;
@@ -88,67 +70,61 @@ p{
   line-height:1.5;
 }
 
-/* ===============================
-   BOTÕES
-================================ */
-button{
+/* BOTÕES */
+button,a.cta-link{
   border:none;
   border-radius:22px;
   color:#fff;
   margin:16px;
   cursor:pointer;
-  transition:0.2s ease;
-  position:relative;
+  transition:.2s;
+  text-decoration:none;
+  display:inline-block;
 }
 
-/* Botão som */
 .play{
   background:var(--azul-logo);
   font-size:28px;
   padding:28px 60px;
   min-width:300px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.25);
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
 }
 
-.play:hover,
-.play.playing{
+.play:hover,.play.playing{
   background:#003F80;
   transform:translateY(-2px);
 }
 
-/* Ouvi */
 .yes{
   background:var(--sucesso);
   font-size:24px;
   padding:20px 44px;
-  min-width:160px;
 }
 
-/* Não ouvi */
 .no{
-  background:var(--neutro);
+  background:var(--rosa-parente);
   font-size:24px;
   padding:20px 44px;
-  min-width:160px;
 }
 
-/* ===============================
-   ANIMAÇÕES
-================================ */
+.no:hover{
+  background:var(--rosa-parente-escuro);
+}
+
+/* ANIMAÇÕES */
 @keyframes fadeIn{
-  from{opacity:0; transform:translateY(30px);}
-  to{opacity:1; transform:none;}
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1}
 }
 
 .screen.active *{
-  animation:fadeIn 0.6s ease;
+  animation:fadeIn .6s ease;
 }
 
-/* Onda sonora */
 @keyframes wave{
-  0%{box-shadow:0 0 0 rgba(255,255,255,0.4);}
-  50%{box-shadow:0 0 35px rgba(0,84,166,0.7);}
-  100%{box-shadow:0 0 0 rgba(255,255,255,0.4);}
+  0%{box-shadow:0 0 0 rgba(255,255,255,.4)}
+  50%{box-shadow:0 0 35px rgba(0,84,166,.7)}
+  100%{box-shadow:0 0 0 rgba(255,255,255,.4)}
 }
 
 .play.playing::after{
@@ -163,14 +139,12 @@ button{
   animation:wave 1s infinite;
 }
 
-/* ===============================
-   RESULTADO FINAL
-================================ */
+/* RESULTADO */
 #resultado-box{
-  background:rgba(255,255,255,0.95);
+  background:rgba(255,255,255,.95);
   padding:40px;
   border-radius:26px;
-  box-shadow:0 20px 40px rgba(0,0,0,0.25);
+  box-shadow:0 20px 40px rgba(0,0,0,.25);
 }
 
 #resultado-texto{
@@ -183,38 +157,32 @@ button{
   display:none;
   margin-top:25px;
   background:var(--azul-logo);
-  color:#fff;
   padding:16px 28px;
-  border-radius:18px;
   font-size:28px;
 }
 
-/* ===============================
-   RESPONSIVO
-================================ */
-@media (max-width:1024px){
-  h1{font-size:38px;}
-  p{font-size:26px;}
-  .play{font-size:26px;}
+/* RESPONSIVO */
+@media(max-width:1024px){
+  h1{font-size:38px}
+  p{font-size:26px}
+  .play{font-size:26px}
 }
 </style>
 </head>
 
 <body>
 
-<img src="https://i.ibb.co/qYr7Pqbn/parente-ca.png" class="logo" alt="Logo">
+<img src="https://i.ibb.co/qYr7Pqbn/parente-ca.png" class="logo">
 
 <div class="container">
 <div class="content">
 
-<!-- INÍCIO -->
 <div class="screen active" id="s1">
   <h1>Bem-vindo ao Teste Auditivo</h1>
   <p>Vamos fazer um simples teste auditivo. É rápido e seguro.</p>
   <button class="play" onclick="next(2)">Começar</button>
 </div>
 
-<!-- SOM 1 -->
 <div class="screen" id="s2">
   <p>Ouça com atenção e carregue no botão para ouvir.</p>
   <button class="play" onclick="playSound(this,'a1')">Ouvir som #1</button><br>
@@ -222,7 +190,6 @@ button{
   <button class="no" onclick="resposta(false,3)">Não ouvi</button>
 </div>
 
-<!-- SOM 2 -->
 <div class="screen" id="s3">
   <p>Ouça com atenção e carregue no botão para ouvir.</p>
   <button class="play" onclick="playSound(this,'a4')">Ouvir som #2</button><br>
@@ -230,7 +197,6 @@ button{
   <button class="no" onclick="resposta(false,4)">Não ouvi</button>
 </div>
 
-<!-- SOM 3 -->
 <div class="screen" id="s4">
   <p>Ouça com atenção e carregue no botão para ouvir.</p>
   <button class="play" onclick="playSound(this,'a8')">Ouvir som #3</button><br>
@@ -238,12 +204,15 @@ button{
   <button class="no" onclick="resposta(false,5)">Não ouvi</button>
 </div>
 
-<!-- RESULTADO -->
 <div class="screen" id="s5">
   <div id="resultado-box">
     <h1>Resultado</h1>
     <p id="resultado-texto"></p>
-    <div id="cta">Marque já uma consulta gratuita na Parente Óptica Médica</div>
+    <a id="cta" class="cta-link"
+       href="https://www.opticaparente.pt/escolha-a-loja-e-marque-a-sua-consulta"
+       target="_blank" rel="noopener">
+       Marque já uma consulta gratuita
+    </a>
   </div>
 </div>
 
@@ -256,46 +225,59 @@ button{
 
 <script>
 let ouvidos = 0;
-let resetTimer = null;
+let resetTimer;
+const RESET_TIME = 30000;
 
-/* Navegação */
+/* RESET POR INATIVIDADE */
+function resetInatividade(){
+  clearTimeout(resetTimer);
+  resetTimer = setTimeout(reiniciar, RESET_TIME);
+}
+
+['click','touchstart','mousemove','keydown'].forEach(e=>{
+  document.addEventListener(e, resetInatividade);
+});
+
+/* NAVEGAÇÃO */
 function next(n){
+  resetInatividade();
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('s'+n).classList.add('active');
 }
 
-/* Guardar respostas */
-function resposta(ouvi, nextScreen){
+/* RESPOSTAS */
+function resposta(ouvi,nextScreen){
+  resetInatividade();
   if(ouvi) ouvidos++;
-  if(nextScreen === 5) mostrarResultado();
+  if(nextScreen===5) mostrarResultado();
   next(nextScreen);
 }
 
-/* Resultado dinâmico + reinício automático */
+/* RESULTADO */
 function mostrarResultado(){
-  const texto = document.getElementById('resultado-texto');
-  const cta = document.getElementById('cta');
+  const texto=document.getElementById('resultado-texto');
+  const cta=document.getElementById('cta');
 
-  if(ouvidos === 3){
-    texto.innerHTML = "Excelente! Ouviu todos os sons.<br>A sua audição aparenta estar dentro da normalidade.";
-    cta.style.display = "none";
-  } else {
-    texto.innerHTML = `Ouviu ${ouvidos} de 3 sons.<br>Recomendamos uma avaliação auditiva gratuita.`;
-    cta.style.display = "block";
+  if(ouvidos===3){
+    texto.innerHTML="Excelente! Ouviu todos os sons.<br>A sua audição aparenta estar dentro da normalidade.";
+    cta.style.display="none";
+  }else{
+    texto.innerHTML=`Ouviu ${ouvidos} de 3 sons.<br>Recomendamos uma avaliação auditiva gratuita.`;
+    cta.style.display="inline-block";
   }
 
-  resetTimer = setTimeout(reiniciar, 30000);
+  resetInatividade();
 }
 
-/* Reinício */
+/* REINICIAR */
 function reiniciar(){
-  ouvidos = 0;
-  clearTimeout(resetTimer);
+  ouvidos=0;
   next(1);
 }
 
-/* Som */
+/* SOM */
 function playSound(btn,id){
+  resetInatividade();
   const audio=document.getElementById(id);
   btn.classList.add('playing');
   const t=btn.innerHTML;
@@ -307,10 +289,10 @@ function playSound(btn,id){
     btn.classList.remove('playing');
     btn.innerHTML=t;
     btn.disabled=false;
-  }
+  };
 }
 
-/* Fullscreen automático */
+/* FULLSCREEN */
 document.addEventListener('click',()=>{
   if(!document.fullscreenElement){
     document.documentElement.requestFullscreen().catch(()=>{});
